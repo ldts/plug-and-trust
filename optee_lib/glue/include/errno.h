@@ -4,7 +4,7 @@
  * Author: Jorge Ramirez <jorge@foundries.io>
  */
 
-#ifndef SM_PRINTF_H
-#define SM_PRINTF_H
+#ifndef ERRNO_H
+#define ERRNO_H
 /* not sure how to create an empty file via sub.mk */
-#endif /* SM_PRINTF_H */
+#endif /* ERRNO_H */

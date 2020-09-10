@@ -1,0 +1,1 @@
+../../hostlib/hostLib/libCommon/smCom/T1oI2C/phEseStatus.h

@@ -1,0 +1,1 @@
+../../hostlib/hostLib/libCommon/smCom/apduComm.h

@@ -1,0 +1,1 @@
+../../sss/inc/fsl_sss_lpc55s_apis.h

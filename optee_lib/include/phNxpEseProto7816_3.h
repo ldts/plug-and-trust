@@ -1,0 +1,1 @@
+../../hostlib/hostLib/libCommon/smCom/T1oI2C/phNxpEseProto7816_3.h

@@ -1,0 +1,1 @@
+../../hostlib/hostLib/libCommon/smCom/smComT1oI2C.h

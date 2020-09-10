@@ -1,0 +1,1 @@
+../../hostlib/hostLib/platform/inc/i2c_a7.h

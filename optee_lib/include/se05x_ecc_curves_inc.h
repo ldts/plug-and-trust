@@ -1,0 +1,1 @@
+../../hostlib/hostLib/inc/se05x_ecc_curves_inc.h

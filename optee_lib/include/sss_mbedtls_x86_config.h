@@ -1,0 +1,1 @@
+../../sss/plugin/mbedtls/sss_mbedtls_x86_config.h

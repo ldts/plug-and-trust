@@ -1,0 +1,1 @@
+../../hostlib/hostLib/se05x_03_xx_xx/se05x_APDU.h

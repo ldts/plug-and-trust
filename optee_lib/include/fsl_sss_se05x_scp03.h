@@ -1,0 +1,1 @@
+../../sss/inc/fsl_sss_se05x_scp03.h
