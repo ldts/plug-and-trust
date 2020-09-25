@@ -14,6 +14,26 @@
 #define USR_FUNC(_x) sss_user_impl_ ##_x
 
 /*
+ * Functions implemented in optee
+ */
+extern sss_status_t glue_mac_context_init(void **mac, const uint8_t *key,
+					 size_t len);
+extern void glue_mac_context_free(void *mac);
+extern sss_status_t glue_mac_update(void *mac, const uint8_t *msg, size_t len);
+extern sss_status_t glue_mac_final(void *mac, uint8_t *buf, size_t len);
+extern sss_status_t glue_mac_one_go(void *mac, const uint8_t *msg,
+				   size_t msg_len,
+				   uint8_t *buf, size_t mac_len);
+extern sss_status_t glue_symmetric_context_init(void **cipher);
+extern sss_status_t glue_cipher_one_go(void *cipher, TEE_OperationMode mode,
+				      uint8_t *iv, size_t iv_len,
+				      uint8_t *key, size_t key_len,
+				      const uint8_t *src, uint8_t *dst,
+				      size_t len);
+extern void glue_context_free(void *cipher);
+extern sss_status_t glue_rng_get_random(uint8_t *data, size_t len);
+
+/*
  * Session
  */
 sss_status_t USR_FUNC(session_open)(sss_user_impl_session_t *s,
@@ -144,7 +164,7 @@ sss_status_t USR_FUNC(mac_context_init)(sss_user_impl_mac_t *ctx,
 					sss_algorithm_t algorithm,
 					sss_mode_t mode)
 {
-	if (!ctx || !key)
+	if(!ctx || !key)
 		return kStatus_SSS_Fail;
 
 	ctx->keyObject = key;
@@ -152,49 +172,31 @@ sss_status_t USR_FUNC(mac_context_init)(sss_user_impl_mac_t *ctx,
 	if (algorithm != kAlgorithm_SSS_CMAC_AES)
 		return kStatus_SSS_Fail;
 
-	if (crypto_mac_alloc_ctx(&ctx->mac, TEE_ALG_AES_CMAC))
-		return kStatus_SSS_Fail;
-
-	if (crypto_mac_init(ctx->mac, key->key, sizeof(key->key)))
-		return kStatus_SSS_Fail;
-
-	return kStatus_SSS_Success;
+	return glue_mac_context_init(&ctx->mac, key->key, 16);
 }
 
 void USR_FUNC(mac_context_free)(sss_user_impl_mac_t *ctx)
 {
-	crypto_mac_free_ctx(ctx->mac);
+	return glue_mac_context_free(ctx->mac);
 }
 
 sss_status_t USR_FUNC(mac_update)(sss_user_impl_mac_t *ctx,
-				  const uint8_t *msg, size_t msg_len)
+				  const uint8_t *msg, size_t len)
 {
-	if (crypto_mac_update(ctx->mac, msg, msg_len))
-		return kStatus_SSS_Fail;
-
-	return kStatus_SSS_Success;
+	return glue_mac_update(ctx->mac, msg, len);
 }
 
 sss_status_t USR_FUNC(mac_finish)(sss_user_impl_mac_t *ctx,
-				  uint8_t *mac, size_t *len)
+				  uint8_t *buf, size_t *len)
 {
-	if (crypto_mac_final(ctx->mac, mac, len))
-		return kStatus_SSS_Fail;
-
-	return kStatus_SSS_Success;
+	return glue_mac_final(ctx->mac, buf, *len);
 }
 
 sss_status_t USR_FUNC(mac_one_go)(sss_user_impl_mac_t *ctx,
 				  const uint8_t *msg, size_t msg_len,
 				  uint8_t *mac, size_t *mac_len)
 {
-	if (crypto_mac_update(ctx->mac, msg, msg_len))
-		return kStatus_SSS_Fail;
-
-	if (crypto_mac_final(ctx->mac, mac, *mac_len))
-		return kStatus_SSS_Fail;
-
-	return kStatus_SSS_Success;
+	return glue_mac_one_go(ctx->mac, msg, msg_len, mac, *mac_len);
 }
 
 /*
@@ -215,10 +217,7 @@ sss_status_t USR_FUNC(symmetric_context_init)(sss_user_impl_symmetric_t *c,
 	c->keyObject = key;
 	c->mode = mode;
 
-	if (crypto_cipher_alloc_ctx(&c->cipher, TEE_ALG_AES_CBC_NOPAD))
-		return kStatus_SSS_Fail;
-
-	return kStatus_SSS_Success;
+	return glue_symmetric_context_init(&c->cipher);
 }
 
 sss_status_t USR_FUNC(cipher_one_go)(sss_user_impl_symmetric_t *ctx,
@@ -231,19 +230,10 @@ sss_status_t USR_FUNC(cipher_one_go)(sss_user_impl_symmetric_t *ctx,
 	if (ctx->mode == kMode_SSS_Encrypt)
 		mode = TEE_MODE_ENCRYPT;
 
-	if (crypto_cipher_init(ctx->cipher, mode,
-			       ctx->keyObject->key,
-			       sizeof(ctx->keyObject->key),
-			       NULL, 0,
-			       iv, iv_len))
-		return kStatus_SSS_Fail;
-
-	if (crypto_cipher_update(ctx->cipher, 0, true, src, len, dst))
-		return kStatus_SSS_Fail;
-
-	crypto_cipher_final(ctx->cipher);
-
-	return kStatus_SSS_Success;
+	return glue_cipher_one_go(ctx->cipher, mode, iv, iv_len,
+				  ctx->keyObject->key,
+				  sizeof(ctx->keyObject->key),
+				  src, dst, len);
 }
 
 void USR_FUNC(symmetric_context_free)(sss_user_impl_symmetric_t *ctx)
@@ -355,8 +345,12 @@ sss_status_t USR_FUNC(rng_get_random)(sss_user_impl_rng_context_t *ctx,
 	if (!ctx)
 		return kStatus_SSS_Fail;
 
-	for (i = 0; i < len; i++)
-		data[i] = (uint8_t)rand();
+	if (glue_rng_get_random(data, len) == kStatus_SSS_InvalidArgument) {
+		for (i = 0; i < len; i++)
+			data[i] = (uint8_t)rand();
+
+		return kStatus_SSS_Success;
+	}
 
 	return kStatus_SSS_Success;
 }
