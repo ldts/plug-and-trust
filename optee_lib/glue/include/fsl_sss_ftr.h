@@ -11,6 +11,32 @@
 #ifndef SSS_APIS_INC_FSL_SSS_FTR_H_
 #define SSS_APIS_INC_FSL_SSS_FTR_H_
 
+/** SE05X_Ver : SE50 Applet version.
+ * 
+ * 03_XX would only enable features of version 03.XX version of applet.
+ * But, this would be compatibility would be added for newer versions of the Applet.
+ * When 04_XX is selected, it would expose features available in 04_XX at compile time.
+ */
+
+/** SE050 */
+#define SSS_HAVE_SE05X_VER_03_XX 1
+/** NXP Internal - 4.4 */
+#define SSS_HAVE_SE05X_VER_04_04 0
+/** NXP Internal - 5.00 */
+#define SSS_HAVE_SE05X_VER_05_00 0
+/** NXP Internal - 5.02 */
+#define SSS_HAVE_SE05X_VER_05_02 0
+/** NXP Internal - 5.04 */
+#define SSS_HAVE_SE05X_VER_05_04 0
+/** NXP Internal - 5.06 */
+#define SSS_HAVE_SE05X_VER_05_06 0
+/** NXP Internal - 5.08 */
+#define SSS_HAVE_SE05X_VER_05_08 0
+/** NXP Internal - 5.10 */
+#define SSS_HAVE_SE05X_VER_05_10 0
+/** NXP Internal - 5.12 */
+#define SSS_HAVE_SE05X_VER_05_12 0
+
 #define SSS_HAVE_APPLET_NONE 0
 #define SSS_HAVE_APPLET_A71CH 0
 #define SSS_HAVE_APPLET_A71CL 0
@@ -228,6 +254,7 @@ SSS_HAVE_HOSTCRYPTO_OPENSSL | SSS_HAVE_HOSTCRYPTO_USER)
 #define SSS_HAVE_SE05X_VER_GTE_04_08 0
 #define SSS_HAVE_SE05X_VER_GTE_04_04 0
 #define SSS_HAVE_SE05X_VER_GTE_03_XX 1
+#define SSS_HAVE_SE05X_VER_GTE_05_04 0
 #endif /* SSS_HAVE_SE05X_VER_03_XX */
 
 #else //SSS_HAVE_APPLET_SE05X_IOT
@@ -235,6 +262,14 @@ SSS_HAVE_HOSTCRYPTO_OPENSSL | SSS_HAVE_HOSTCRYPTO_USER)
 #define SSS_HAVE_SE05X_VER_GTE_04_04 0
 #define SSS_HAVE_SE05X_VER_GTE_04_08 0
 #define SSS_HAVE_SE05X_VER_GTE_04_12 0
+#define SSS_HAVE_SE05X_VER_GTE_05_00 0
+#define SSS_HAVE_SE05X_VER_GTE_05_02 0
+#define SSS_HAVE_SE05X_VER_GTE_05_04 0
+#define SSS_HAVE_SE05X_VER_GTE_05_06 0
+#define SSS_HAVE_SE05X_VER_GTE_05_08 0
+#define SSS_HAVE_SE05X_VER_GTE_05_10 0
+#define SSS_HAVE_SE05X_VER_GTE_05_12 0
+
 #endif // SSS_HAVE_APPLET_SE05X_IOT
 
 /* Deprecated items. Used here for backwards compatibility. */
