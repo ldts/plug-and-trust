@@ -155,12 +155,6 @@ sss_status_t sss_util_rfc8410_asn1_get_ec_pair_key_index(const uint8_t *input,
 
 int asn_1_parse_tlv(uint8_t *pbuf, size_t *taglen, size_t *bufindex);
 
-sss_status_t sss_util_asn1_rsa_parse_public_nomalloc(
-    const uint8_t *key, size_t keylen, uint8_t *modulus, size_t *modlen, uint8_t *pubExp, size_t *pubExplen);
-
-sss_status_t sss_util_asn1_rsa_parse_public_nomalloc_complete_modulus(
-    const uint8_t *key, size_t keylen, uint8_t *modulus, size_t *modlen, uint8_t *pubExp, size_t *pubExplen);
-
 sss_status_t sss_util_openssl_read_pkcs12(
     const char *pkcs12_cert, const char *password, uint8_t *private_key, uint8_t *cert);
 
