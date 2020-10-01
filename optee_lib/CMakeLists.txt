@@ -1,13 +1,16 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.5.0)
-
-project(se050)
-
-# Build
-#---------------------------------------
-# mkdir build; cd build
-# cmake -DOPTEE_TREE=/path/to/optee/ ..
-# make
+# // SPDX-License-Identifier: BSD-3-Clause
+#  Copyright (C) Foundries Ltd. 2020 - All Rights Reserved
+#  Author: Jorge Ramirez <jorge@foundries.io>
 #
+# Build:
+#  $ mkdir build
+#  $ cd build
+#  $ cmake -DOPTEE_TREE=/path/to/optee/ ..
+#  $ make
+#
+
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5.0)
+project(se050)
 
 set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-std=gnu99 \
                                     -fdiagnostics-show-option \
@@ -16,6 +19,9 @@ set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-std=gnu99 \
                                     -pipe -g3 -fpie \
                                     -mstrict-align \
                                     -mgeneral-regs-only")
+
+## Only arm64 so far:
+## check optee_lib/glue/wraps.c for the arm64.h include
 set(CMAKE_C_COMPILER aarch64-linux-gnu-gcc)
 
 FILE(
@@ -75,6 +81,7 @@ TARGET_INCLUDE_DIRECTORIES(
     ${INC_DIR}
     )
 
+# Plug and Trust definitions
 ADD_DEFINITIONS(-DSSS_USE_FTR_FILE)
 ADD_DEFINITIONS(-DSMCOM_T1oI2C)
 ADD_DEFINITIONS(-DT1oI2C)
@@ -82,6 +89,4 @@ ADD_DEFINITIONS(-DT1oI2C_UM11225)
 ADD_DEFINITIONS(-DAX_EMBEDDED=1)
 ADD_DEFINITIONS(-DVERBOSE_APDU_LOGS=0)
 
-# op-tee definitions (check initcalls.h)
-ADD_DEFINITIONS(-DTRACE_LEVEL=2)
-ADD_DEFINITIONS(-DTRACE_DEBUG=4)
+# OP-TEE definitions
