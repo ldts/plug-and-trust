@@ -584,25 +584,12 @@ sss_status_t sss_se05x_refresh_session(sss_se05x_session_t *session, void *conne
  * @{
  */
 
-/** @copydoc sss_tunnel_context_init
- *
- */
-sss_status_t sss_se05x_tunnel_context_init(sss_se05x_tunnel_context_t *context, sss_se05x_session_t *session);
-
-/** @copydoc sss_tunnel_t
- *
- */
 sss_status_t sss_se05x_tunnel(sss_se05x_tunnel_context_t *context,
     uint8_t *data,
     size_t dataLen,
     sss_se05x_object_t *keyObjects,
     uint32_t keyObjectCount,
     uint32_t tunnelType);
-
-/** @copydoc sss_tunnel_context_free
- *
- */
-void sss_se05x_tunnel_context_free(sss_se05x_tunnel_context_t *context);
 
 /*! @} */ /* end of : sss_se05x_tunnel */
 
