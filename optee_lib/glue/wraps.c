@@ -6,6 +6,7 @@
  * OP-TEE implementation for undefined SE050 middleware symbols
  */
 
+#include <arm64.h>
 #include <fsl_sss_api.h>
 #include <kernel/delay.h>
 #include <nxLog.h>

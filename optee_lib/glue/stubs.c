@@ -8,6 +8,7 @@
  */
 
 #include <fsl_sss_se05x_types.h>
+#include <fsl_sss_se05x_apis.h>
 #include <stubs.h>
 
 sss_status_t sss_digest_context_init(sss_digest_t *context,

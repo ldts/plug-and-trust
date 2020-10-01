@@ -7,6 +7,8 @@
 #include <crypto/crypto.h>
 #include "fsl_sss_user_apis.h"
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 #define MAC_BLOCK_SIZE 16
 
