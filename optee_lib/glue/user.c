@@ -7,6 +7,7 @@
 #include <crypto/crypto.h>
 #include "fsl_sss_user_apis.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <time.h>
 

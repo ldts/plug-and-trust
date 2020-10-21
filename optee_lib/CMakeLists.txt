@@ -2,28 +2,46 @@
 #  Copyright (C) Foundries Ltd. 2020 - All Rights Reserved
 #  Author: Jorge Ramirez <jorge@foundries.io>
 #
-# Build:
+#
+# Build AARCH64
 #  $ mkdir build
 #  $ cd build
-#  $ cmake -DOPTEE_TREE=/path/to/optee/ ..
+#  $ cmake -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DOPTEE_TREE=/path/to/optee/ ..
+#  $ make CFLAGS="-mstrict-align -mgeneral-regs-only"
+#
+# Build ARM
+#  $ mkdir build
+#  $ cd build
+#  $ cmake -DCMAKE_C_COMPILER=arm-linux-gnueabi-gcc -DOPTEE_TREE=/path/to/optee/ ..
 #  $ make
+#
+# Library will be installed in optee_lib/build/libse050.a
+#
+# This stack has been integrated in OP-TEE and validated on iMX8mm and iMX6ull platforms fitted with the ARD SE050
+# Foundries.io
+#
+#            _  _
+#           | \/ |
+#        \__|____|__/
+#          |  o  o|           Thumbs Up
+#          |___\/_|_____||_
+#          |       _____|__|
+#          |      |
+#          |______|
+#          | |  | |
+#          | |  | |
+#          |_|  |_|
+#
 #
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5.0)
 project(se050)
 
-set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-std=gnu99 \
+set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} ${FLAGS} "-std=gnu99 \
                                     -fdiagnostics-show-option \
                                     -Wall -Os \
                                     -ffunction-sections -fdata-sections \
-                                    -pipe -g3 -fpie \
-                                    -mstrict-align \
-                                    -mgeneral-regs-only")
-
-## Only arm64 so far:
-## check optee_lib/glue/wraps.c for the arm64.h include
-set(CMAKE_C_COMPILER aarch64-linux-gnu-gcc)
-
+                                    -pipe -g3 -fpie")
 FILE(
     GLOB
     SOURCES
@@ -88,5 +106,3 @@ ADD_DEFINITIONS(-DT1oI2C)
 ADD_DEFINITIONS(-DT1oI2C_UM11225)
 ADD_DEFINITIONS(-DAX_EMBEDDED=1)
 ADD_DEFINITIONS(-DVERBOSE_APDU_LOGS=0)
-
-# OP-TEE definitions
