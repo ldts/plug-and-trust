@@ -5,7 +5,7 @@ OP-TEE Enabled Plug and Trust Library
 
 This repository provides the functionality required by a Trusted Execution Environment (in this case OP-TEE, v3.11 released on Oct 16 2020) to access the `NXP EdgeLock™ SE050: Plug & Trust Secure Element`.
 
-The relevant OP-TEE driver can be found at https://github.com/OP-TEE/optee_os/pull/4091.
+The relevant OP-TEE driver can be found at https://github.com/OP-TEE/optee_os/pull/4178.
 
 The stack has been validated on iMX8mm and iMX6ull platforms fitted with the ARD SE050 https://www.nxp.com/products/security-and-authentication/authentication/edgelock-se050-development-kit:OM-SE050X for the following operations::
 
