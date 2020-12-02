@@ -83,10 +83,10 @@ sss_status_t nxSCP03_Encrypt_CommandAPDU(NXSCP03_DynCtx_t *pdySCP03SessCtx, uint
         dataLen = *pCmdBufLen;
         LOG_D("Encrypt CommandAPDU");
         sss_status = sss_host_cipher_one_go(&symm, pIv, SCP_KEY_SIZE, apduPayloadToEncrypt, cmdBuf, dataLen);
+        sss_host_symmetric_context_free(&symm);
         ENSURE_OR_GO_CLEANUP(sss_status == kStatus_SSS_Success);
         LOG_AU8_D(cmdBuf, dataLen);
         LOG_MAU8_D("Output: EncryptedcmdBuf", cmdBuf, dataLen);
-        sss_host_symmetric_context_free(&symm);
     }
     else {
         /* Nothing to encrypt */
