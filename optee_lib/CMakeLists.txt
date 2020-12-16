@@ -67,6 +67,7 @@ FILE(
      glue/i2c.c
      glue/smCom.c
      glue/user.c
+     glue/der.c
 )
 
 add_library(${PROJECT_NAME} ${SOURCES})
